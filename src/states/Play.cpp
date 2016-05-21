@@ -1,6 +1,8 @@
 #include <algorithm>
+#include <cmath>
 
 #include <glade/Context.h>
+#include <glade/math/util.h>
 #include <thatworld/blocks/Gold.h>
 #include <thatworld/controls/ThatworldController.h>
 #include <thatworld/states/Play.h>
@@ -128,11 +130,17 @@ void Play::init(Context &context)
 
 void Play::applyRules(Context &context)
 {
+  ;
   // Moving player character
-  context.renderer->camera.position->x += movingDirection.x * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
-  context.renderer->camera.position->y += movingDirection.y * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
-  context.renderer->camera.position->z += movingDirection.z * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
+  context.renderer->camera.position->x += movingDirection.x * BASE_RUNNING_SPEED * context.timer.getDeltaTime() * ::cosf(::degrees_to_radians(context.renderer->camera.rotation->y));
+  context.renderer->camera.position->x -= movingDirection.z * BASE_RUNNING_SPEED * context.timer.getDeltaTime() * ::sinf(::degrees_to_radians(context.renderer->camera.rotation->y));
 
+  context.renderer->camera.position->y += movingDirection.y * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
+
+  context.renderer->camera.position->z += movingDirection.z * BASE_RUNNING_SPEED * context.timer.getDeltaTime() * ::cosf(::degrees_to_radians(context.renderer->camera.rotation->y));
+  context.renderer->camera.position->z += movingDirection.x * BASE_RUNNING_SPEED * context.timer.getDeltaTime() * ::sinf(::degrees_to_radians(context.renderer->camera.rotation->y));
+
+  // Rotating player character
   context.renderer->camera.rotation->x += lookDirection.x * 20.0 * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
   context.renderer->camera.rotation->y += lookDirection.y * 20.0 * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
 
