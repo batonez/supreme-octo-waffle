@@ -1,4 +1,6 @@
 #include <windows.h>
+#include <tchar.h>
+#include <strsafe.h>
 
 #include <fstream>
 #include <stdio.h>
@@ -197,7 +199,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
           }
         } else if (rawInput->header.dwType == RIM_TYPEMOUSE) {
-          
+            RAWMOUSE *mouse = (RAWMOUSE*) &rawInput->data;
+            
+            TCHAR szTempOutput[1000]; 
+          	HRESULT hResult = StringCchPrintf(szTempOutput, 1000, TEXT("Mouse: usFlags=%04x ulButtons=%04x usButtonFlags=%04x usButtonData=%04x ulRawButtons=%04x lLastX=%04x lLastY=%04x ulExtraInformation=%04x\r\n"), 
+            mouse->usFlags, 
+            mouse->ulButtons, 
+            mouse->usButtonFlags, 
+            mouse->usButtonData, 
+            mouse->ulRawButtons, 
+            mouse->lLastX, 
+            mouse->lLastY, 
+            mouse->ulExtraInformation);
+
+            if (FAILED(hResult))
+            {
+            // TODO: write error handler
+            }
+            OutputDebugString(szTempOutput);
+            static bool down = false;
+
+            if (mouse->usButtonFlags & RI_MOUSE_LEFT_BUTTON_DOWN)
+              down = true;
+            if (mouse->usButtonFlags & RI_MOUSE_LEFT_BUTTON_UP)
+              down = false;
+            
+            if (down)
+              controller->pointerMove(-(float)mouse->lLastX, -(float)mouse->lLastY, 0.0f, 0, 0);
         }
       } else {
         log("Warning: no virtual controller in the game context. You can use stub controller to suppress this message");

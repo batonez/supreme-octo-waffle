@@ -15,9 +15,10 @@ class Play: public State
   
   private:
     static const float BASE_RUNNING_SPEED;
+    static const float MOUSE_SENSITIVITY;
 
     Vector3i movingDirection;
-    Vector2i lookDirection;
+    Vector2f mouseLook;
     ThatworldController *controller;
     Gold *cube;
 

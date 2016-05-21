@@ -10,6 +10,7 @@
 #define DEBUG_GENERATOR 0
 
 const float Play::BASE_RUNNING_SPEED = 0.001f;
+const float Play::MOUSE_SENSITIVITY = 0.01f;
 
 class ThatworldPlayController: public ThatworldController
 {
@@ -46,22 +47,22 @@ class ThatworldPlayController: public ThatworldController
           handled = true;
           break;
         case ThatworldController::BUTTON_FORWARD:
-          playState.lookDirection.x =  -1;
+          playState.mouseLook.x =  -1;
           handled = true;
           break;
         case ThatworldController::BUTTON_BACKWARD:
-          playState.lookDirection.x =  1;
+          playState.mouseLook.x =  1;
           handled = true;
           break;
         case ThatworldController::BUTTON_FIRE:
           handled = true;
           break;
         case ThatworldController::BUTTON_STRAFE_LEFT:
-          playState.lookDirection.y = -1;
+          playState.mouseLook.y = -1;
           handled = true;
           break;
         case ThatworldController::BUTTON_STRAFE_RIGHT:
-          playState.lookDirection.y =  1;
+          playState.mouseLook.y =  1;
           handled = true;
           break;
       }
@@ -86,17 +87,24 @@ class ThatworldPlayController: public ThatworldController
           break;
         case ThatworldController::BUTTON_FORWARD:
         case ThatworldController::BUTTON_BACKWARD:
-          playState.lookDirection.x = 0;
+          playState.mouseLook.x = 0;
           handled = true;
           break;
         case ThatworldController::BUTTON_STRAFE_LEFT:
         case ThatworldController::BUTTON_STRAFE_RIGHT:
-          playState.lookDirection.y = 0;
+          playState.mouseLook.y = 0;
           handled = true;
           break;
       }
       
       return handled;
+    }
+    
+    virtual bool pointerMove(float axisX, float axisY, float axisZ, int controlId, int terminalId)
+    {
+      playState.mouseLook.x = axisY;
+      playState.mouseLook.y = axisX;
+      return true;
     }
     
     virtual void init()
@@ -141,8 +149,11 @@ void Play::applyRules(Context &context)
   context.renderer->camera.position->z += movingDirection.x * BASE_RUNNING_SPEED * context.timer.getDeltaTime() * ::sinf(::degrees_to_radians(context.renderer->camera.rotation->y));
 
   // Rotating player character
-  context.renderer->camera.rotation->x += lookDirection.x * 20.0 * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
-  context.renderer->camera.rotation->y += lookDirection.y * 20.0 * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
+  context.renderer->camera.rotation->x += mouseLook.x * MOUSE_SENSITIVITY * context.timer.getDeltaTime();
+  context.renderer->camera.rotation->y += mouseLook.y * MOUSE_SENSITIVITY * context.timer.getDeltaTime();
+  context.renderer->camera.rotation->x = Transform::constrainAngle(context.renderer->camera.rotation->x);
+  context.renderer->camera.rotation->y = Transform::constrainAngle(context.renderer->camera.rotation->y);
+  mouseLook.x = mouseLook.y = 0;
 
   //Collectable::cubeRotation->set(30.0f, Collectable::cubeRotation->y + 5.0f, 0.0f);
 }
