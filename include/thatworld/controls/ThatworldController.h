@@ -13,6 +13,8 @@ class ThatworldController : public VirtualController
     static const int BUTTON_UP           = 5;
     static const int BUTTON_DOWN         = 6;
     static const int BUTTON_USE          = 7;
+    static const int BUTTON_FORWARD      = 8;
+    static const int BUTTON_BACKWARD     = 9;
     static const int POINTER_MOVE        = 100;
     static const int POINTER_POINT       = 101;
     

@@ -13,15 +13,17 @@ class Gold;
 
 class Play: public State
 {
-  friend class MazeController;
+  friend class ThatworldPlayController;
   
   private:
     static const float BASE_RUNNING_SPEED;
+    static const float BASE_ACCELERATION;
 
     float runningSpeed;
+    float acceleration;
     float blockWidth, blockHeight;
     float screenScaleX, screenScaleY;
-    Vector3i cameraMan;
+    Vector3i movingDirection;
     ThatworldController *controller;
     Player *player;
     Gold *cube;
@@ -48,5 +50,4 @@ class Play: public State
       int getBlockCoordX(Block &object);
       int getBlockCoordY(Block &object);
       int areaCoordFromBlockCoord(int blockCoord);
-      void applyStartingRulesForBlock(Block &block, int block_x, int block_y);
 };
