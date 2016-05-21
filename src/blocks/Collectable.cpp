@@ -1,6 +1,7 @@
 #include <glade/render/ShaderProgram.h>
 #include <glade/render/Drawable.h>
 #include <glade/render/meshes/Cube.h>
+#include <glade/util/Path.h>
 #include <thatworld/ResourceManager.h>
 #include <thatworld/blocks/Collectable.h>
 
