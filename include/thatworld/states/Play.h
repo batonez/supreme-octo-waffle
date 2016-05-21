@@ -17,6 +17,7 @@ class Play: public State
     static const float BASE_RUNNING_SPEED;
 
     Vector3i movingDirection;
+    Vector2i lookDirection;
     ThatworldController *controller;
     Gold *cube;
 

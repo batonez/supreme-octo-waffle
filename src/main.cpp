@@ -142,6 +142,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
               case 0x44: // D
                 controller->buttonPress(ThatworldController::BUTTON_RIGHT, 0);
                 break;
+              case 0x51: // Q
+                controller->buttonPress(ThatworldController::BUTTON_STRAFE_LEFT, 0);
+                break;
+              case 0x45: // E
+                controller->buttonPress(ThatworldController::BUTTON_STRAFE_RIGHT, 0);
+                break;
             }
             // button is up
           } else if (keyboard->Flags == RI_KEY_BREAK
@@ -181,6 +187,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
               case 0x44: // D
                 controller->buttonRelease(ThatworldController::BUTTON_RIGHT, 0);
+                break;
+              case 0x51: // Q
+                controller->buttonRelease(ThatworldController::BUTTON_STRAFE_LEFT, 0);
+                break;
+              case 0x45: // E
+                controller->buttonRelease(ThatworldController::BUTTON_STRAFE_RIGHT, 0);
                 break;
             }
           }

@@ -36,22 +36,30 @@ class ThatworldPlayController: public ThatworldController
           handled = true;
           break;
         case ThatworldController::BUTTON_UP:
-          playState.movingDirection.y = 1;
+          playState.movingDirection.z = -1;
           handled = true;
           break;
         case ThatworldController::BUTTON_DOWN:
-          playState.movingDirection.y =  -1;
-          handled = true;
-          break;
-        case ThatworldController::BUTTON_FORWARD:
-          playState.movingDirection.z =  -1;
-          handled = true;
-          break;
-        case ThatworldController::BUTTON_BACKWARD:
           playState.movingDirection.z =  1;
           handled = true;
           break;
+        case ThatworldController::BUTTON_FORWARD:
+          playState.lookDirection.x =  -1;
+          handled = true;
+          break;
+        case ThatworldController::BUTTON_BACKWARD:
+          playState.lookDirection.x =  1;
+          handled = true;
+          break;
         case ThatworldController::BUTTON_FIRE:
+          handled = true;
+          break;
+        case ThatworldController::BUTTON_STRAFE_LEFT:
+          playState.lookDirection.y = -1;
+          handled = true;
+          break;
+        case ThatworldController::BUTTON_STRAFE_RIGHT:
+          playState.lookDirection.y =  1;
           handled = true;
           break;
       }
@@ -65,27 +73,23 @@ class ThatworldPlayController: public ThatworldController
       
       switch (id) {
         case ThatworldController::BUTTON_LEFT:
-          playState.movingDirection.x = 0;
-          handled = true;
-          break;
         case ThatworldController::BUTTON_RIGHT:
           playState.movingDirection.x = 0;
           handled = true;
           break;
         case ThatworldController::BUTTON_UP:
-          playState.movingDirection.y = 0;
-          handled = true;
-          break;
         case ThatworldController::BUTTON_DOWN:
-          playState.movingDirection.y = 0;
+          playState.movingDirection.z = 0;
           handled = true;
           break;
         case ThatworldController::BUTTON_FORWARD:
-          playState.movingDirection.z = 0;
+        case ThatworldController::BUTTON_BACKWARD:
+          playState.lookDirection.x = 0;
           handled = true;
           break;
-        case ThatworldController::BUTTON_BACKWARD:
-          playState.movingDirection.z = 0;
+        case ThatworldController::BUTTON_STRAFE_LEFT:
+        case ThatworldController::BUTTON_STRAFE_RIGHT:
+          playState.lookDirection.y = 0;
           handled = true;
           break;
       }
@@ -129,7 +133,10 @@ void Play::applyRules(Context &context)
   context.renderer->camera.position->y += movingDirection.y * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
   context.renderer->camera.position->z += movingDirection.z * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
 
-  Collectable::cubeRotation->set(30.0f, Collectable::cubeRotation->y + 5.0f, 0.0f);
+  context.renderer->camera.rotation->x += lookDirection.x * 20.0 * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
+  context.renderer->camera.rotation->y += lookDirection.y * 20.0 * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
+
+  //Collectable::cubeRotation->set(30.0f, Collectable::cubeRotation->y + 5.0f, 0.0f);
 }
 
 void Play::shutdown(Context &context)
