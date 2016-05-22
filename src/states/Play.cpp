@@ -170,7 +170,7 @@ void Play::applyRules(Context &context)
   mouseLook.x = mouseLook.y = 0;
 
   //Collectable::cubeRotation->set(30.0f, Collectable::cubeRotation->y + 5.0f, 0.0f);
-  terrain->getTransform()->rotation->z += 0.01f;
+  //terrain->getTransform()->rotation->z += 0.01f;
 }
 
 void Play::shutdown(Context &context)
