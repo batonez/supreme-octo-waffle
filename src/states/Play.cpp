@@ -4,6 +4,7 @@
 #include <glade/Context.h>
 #include <glade/math/util.h>
 #include <thatworld/blocks/Collectable.h>
+#include <thatworld/blocks/Terrain.h>
 #include <thatworld/controls/ThatworldController.h>
 #include <thatworld/states/Play.h>
 
@@ -39,19 +40,19 @@ class ThatworldPlayController: public ThatworldController
           handled = true;
           break;
         case ThatworldController::BUTTON_UP:
-          playState.movingDirection.z = -1;
+          playState.movingDirection.y = 1;
           handled = true;
           break;
         case ThatworldController::BUTTON_DOWN:
-          playState.movingDirection.z =  1;
+          playState.movingDirection.y =  -1;
           handled = true;
           break;
         case ThatworldController::BUTTON_FORWARD:
-          playState.mouseLook.x =  -1;
+          playState.movingDirection.z =  -1;
           handled = true;
           break;
         case ThatworldController::BUTTON_BACKWARD:
-          playState.mouseLook.x =  1;
+          playState.movingDirection.z =  1;
           handled = true;
           break;
         case ThatworldController::BUTTON_FIRE:
@@ -82,12 +83,12 @@ class ThatworldPlayController: public ThatworldController
           break;
         case ThatworldController::BUTTON_UP:
         case ThatworldController::BUTTON_DOWN:
-          playState.movingDirection.z = 0;
+          playState.movingDirection.y = 0;
           handled = true;
           break;
         case ThatworldController::BUTTON_FORWARD:
         case ThatworldController::BUTTON_BACKWARD:
-          playState.mouseLook.x = 0;
+          playState.movingDirection.z = 0;
           handled = true;
           break;
         case ThatworldController::BUTTON_STRAFE_LEFT:
@@ -128,16 +129,28 @@ void Play::init(Context &context)
   context.renderer->setSceneProjectionMode(Glade::Renderer::PERSPECTIVE);
 
   cube = new Collectable();
-  cube->initialize("cave", 1.0f, 1.0f);
+  cube->initialize();
   context.add(cube);
 
+  cube->getTransform()->position->y = 1.0f;
+  
+  terrain = new Terrain();
+  terrain->initialize();
+  context.add(terrain);
+  
+  terrain->getTransform()->rotation->x = -PI / 2.0f;
+  terrain->getTransform()->position->x = -5.0f;
+  terrain->getTransform()->position->z = -5.0f;
+  
+  context.renderer->camera.position->z = 5.0f;
+  context.renderer->camera.position->y = 1.0f;
+  
   controller = new ThatworldPlayController(context, *this);
   context.setController(*controller);
 }
 
 void Play::applyRules(Context &context)
 {
-  ;
   // Moving player character
   context.renderer->camera.position->x += movingDirection.x * BASE_RUNNING_SPEED * ::cosf(context.renderer->camera.rotation->y);
   context.renderer->camera.position->x -= movingDirection.z * BASE_RUNNING_SPEED * ::sinf(context.renderer->camera.rotation->y);
@@ -157,6 +170,7 @@ void Play::applyRules(Context &context)
   mouseLook.x = mouseLook.y = 0;
 
   //Collectable::cubeRotation->set(30.0f, Collectable::cubeRotation->y + 5.0f, 0.0f);
+  terrain->getTransform()->rotation->z += 0.01f;
 }
 
 void Play::shutdown(Context &context)

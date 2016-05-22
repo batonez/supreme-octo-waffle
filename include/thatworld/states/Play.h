@@ -8,6 +8,7 @@ class Context;
 class Block;
 class ThatworldController;
 class Collectable;
+class Terrain;
 
 class Play: public State
 {
@@ -17,10 +18,12 @@ class Play: public State
     static const float BASE_RUNNING_SPEED;
     static const float MOUSE_SENSITIVITY;
 
+    ThatworldController *controller;
     Vector3i movingDirection;
     Vector2f mouseLook;
-    ThatworldController *controller;
+
     Collectable *cube;
+    Terrain *terrain;
 
   public:
     Play();

@@ -25,11 +25,9 @@ Collectable::~Collectable()
   }
 }
 
-void Collectable::initialize(const std::string &texture_pack_name, float block_width, float block_height)
+void Collectable::initialize()
 {
   if (!initialized ) {
-    getTransform()->setScale(block_width / 2, block_height / 2, block_width / 2);
-    
     std::shared_ptr<ShaderProgram> program =
       game_resource_manager->getShaderProgram(
         "lit_shape.vertex.glsl",

@@ -2,20 +2,17 @@
 
 #include <glade/GladeObject.h>
 
-class Collectable: public GladeObject
+class Terrain: public GladeObject
 {
   protected:
     bool initialized;
     Drawable *view;
 
-  private:
-    float halfplaneXZ;
-    
   public:
     static Transform::SharedVector cubeRotation;
 
-    Collectable();
-    virtual ~Collectable();
+    Terrain();
+    virtual ~Terrain();
 
     virtual void initialize();
 };
