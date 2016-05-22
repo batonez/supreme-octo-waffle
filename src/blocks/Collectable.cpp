@@ -8,7 +8,7 @@
 extern Thatworld::ResourceManager *game_resource_manager;
 
 // TODO initial angle was random and it was cool
-Transform::SharedVector Collectable::cubeRotation(new Vector3f(45.0f, 0, 45.0f));
+Transform::SharedVector Collectable::cubeRotation(new Vector3f(0.0f, 0.0f, 0.0f));
 
 Collectable::Collectable():
   Block(NULL),
@@ -43,7 +43,7 @@ void Collectable::initialize(const std::string &texture_pack_name, float block_w
   view = new Drawable(game_resource_manager->getMesh(Glade::ResourceManager::MESH_CUBE), program);
   
   view->getTransform()->setRotation(cubeRotation);
-  view->getTransform()->setRotation(0.33f, 0.33f, 0.33f);
+  //view->getTransform()->setRotation(0.33f, 0.33f, 0.33f);
   
   addDrawable(view);
 }

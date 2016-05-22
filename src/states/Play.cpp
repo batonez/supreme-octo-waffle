@@ -140,19 +140,21 @@ void Play::applyRules(Context &context)
 {
   ;
   // Moving player character
-  context.renderer->camera.position->x += movingDirection.x * BASE_RUNNING_SPEED * context.timer.getDeltaTime() * ::cosf(::degrees_to_radians(context.renderer->camera.rotation->y));
-  context.renderer->camera.position->x -= movingDirection.z * BASE_RUNNING_SPEED * context.timer.getDeltaTime() * ::sinf(::degrees_to_radians(context.renderer->camera.rotation->y));
+  context.renderer->camera.position->x += movingDirection.x * BASE_RUNNING_SPEED * ::cosf(context.renderer->camera.rotation->y);
+  context.renderer->camera.position->x -= movingDirection.z * BASE_RUNNING_SPEED * ::sinf(context.renderer->camera.rotation->y);
 
-  context.renderer->camera.position->y += movingDirection.y * BASE_RUNNING_SPEED * context.timer.getDeltaTime();
+  context.renderer->camera.position->y += movingDirection.y * BASE_RUNNING_SPEED;
 
-  context.renderer->camera.position->z += movingDirection.z * BASE_RUNNING_SPEED * context.timer.getDeltaTime() * ::cosf(::degrees_to_radians(context.renderer->camera.rotation->y));
-  context.renderer->camera.position->z += movingDirection.x * BASE_RUNNING_SPEED * context.timer.getDeltaTime() * ::sinf(::degrees_to_radians(context.renderer->camera.rotation->y));
+  context.renderer->camera.position->z += movingDirection.z * BASE_RUNNING_SPEED * ::cosf(context.renderer->camera.rotation->y);
+  context.renderer->camera.position->z += movingDirection.x * BASE_RUNNING_SPEED * ::sinf(context.renderer->camera.rotation->y);
 
   // Rotating player character
-  context.renderer->camera.rotation->x += mouseLook.x * MOUSE_SENSITIVITY * context.timer.getDeltaTime();
-  context.renderer->camera.rotation->y += mouseLook.y * MOUSE_SENSITIVITY * context.timer.getDeltaTime();
-  context.renderer->camera.rotation->x = Transform::constrainAngle(context.renderer->camera.rotation->x);
-  context.renderer->camera.rotation->y = Transform::constrainAngle(context.renderer->camera.rotation->y);
+  context.renderer->camera.rotation->x += mouseLook.x * MOUSE_SENSITIVITY;
+  context.renderer->camera.rotation->y += mouseLook.y * MOUSE_SENSITIVITY;
+  
+  // TODO this should be done in the Transform class
+  context.renderer->camera.rotation->x = ::simplify_angle_radians(context.renderer->camera.rotation->x);
+  context.renderer->camera.rotation->y = ::simplify_angle_radians(context.renderer->camera.rotation->y);
   mouseLook.x = mouseLook.y = 0;
 
   //Collectable::cubeRotation->set(30.0f, Collectable::cubeRotation->y + 5.0f, 0.0f);
