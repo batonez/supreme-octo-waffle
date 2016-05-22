@@ -132,7 +132,7 @@ void Play::init(Context &context)
   cube->initialize();
   context.add(cube);
 
-  cube->getTransform()->position->y = 1.0f;
+  cube->getTransform()->position->y = 2.0f;
   
   terrain = new Terrain();
   terrain->initialize();
@@ -163,13 +163,13 @@ void Play::applyRules(Context &context)
   // Rotating player character
   context.renderer->camera.rotation->x += mouseLook.x * MOUSE_SENSITIVITY;
   context.renderer->camera.rotation->y += mouseLook.y * MOUSE_SENSITIVITY;
-  
+
   // TODO this should be done in the Transform class
   context.renderer->camera.rotation->x = ::simplify_angle_radians(context.renderer->camera.rotation->x);
   context.renderer->camera.rotation->y = ::simplify_angle_radians(context.renderer->camera.rotation->y);
   mouseLook.x = mouseLook.y = 0;
 
-  //Collectable::cubeRotation->set(30.0f, Collectable::cubeRotation->y + 5.0f, 0.0f);
+  Collectable::cubeRotation->y += 0.02f;
   //terrain->getTransform()->rotation->z += 0.01f;
 }
 

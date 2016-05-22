@@ -36,8 +36,8 @@ void Collectable::initialize()
     
     view = new Drawable(game_resource_manager->getMesh(Glade::ResourceManager::MESH_CUBE), program);
 
-    view->setUniform("uMaterialAmbient",   Vector4f(0.1f, 0.8f, 0.3f, 1.0f));
-    view->setUniform("uMaterialDiffuse",   Vector4f(0.1f, 0.8f, 0.3f, 1.0f));
+    view->setUniform("uMaterialAmbient",   Vector4f(0.8f, 0.1f, 0.3f, 1.0f));
+    view->setUniform("uMaterialDiffuse",   Vector4f(0.8f, 0.1f, 0.3f, 1.0f));
     view->setUniform("uMaterialSpecular",  Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
     view->setUniform("uMaterialShininess", 128.0f);
 
@@ -48,7 +48,7 @@ void Collectable::initialize()
     view->setUniform("uLightHalfplane", halfplaneXZ);
 
     view->getTransform()->setRotation(cubeRotation);
-    //view->getTransform()->setRotation(0.33f, 0.33f, 0.33f);
+    view->getTransform()->setRotation(0.33f, 0.33f, 0.33f);
     
     addDrawable(view);
     initialized = true;
