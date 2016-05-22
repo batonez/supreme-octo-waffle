@@ -20,8 +20,6 @@ os.path.join(os.environ['HATCHERY_SOURCES'], 'sha1'),
 baker.compilerSources = [
 os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'src', 'states', 'Play.cpp'),
 os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'src', 'blocks', 'Collectable.cpp'),
-os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'src', 'blocks', 'Gold.cpp'),
-os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'src', 'blocks', 'Block.cpp'),
 os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'src', 'ResourceManager.cpp'),
 os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'src', 'main.cpp'),
 os.path.join(os.environ['HATCHERY_SOURCES'], 'sha1',  'sha1.cpp'),

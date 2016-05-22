@@ -7,7 +7,7 @@
 class Context;
 class Block;
 class ThatworldController;
-class Gold;
+class Collectable;
 
 class Play: public State
 {
@@ -20,7 +20,7 @@ class Play: public State
     Vector3i movingDirection;
     Vector2f mouseLook;
     ThatworldController *controller;
-    Gold *cube;
+    Collectable *cube;
 
   public:
     Play();

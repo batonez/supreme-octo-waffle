@@ -3,7 +3,7 @@
 
 #include <glade/Context.h>
 #include <glade/math/util.h>
-#include <thatworld/blocks/Gold.h>
+#include <thatworld/blocks/Collectable.h>
 #include <thatworld/controls/ThatworldController.h>
 #include <thatworld/states/Play.h>
 
@@ -127,8 +127,7 @@ void Play::init(Context &context)
   context.renderer->setBackgroundColor(0.0f, 0.0f, 0.0f);
   context.renderer->setSceneProjectionMode(Glade::Renderer::PERSPECTIVE);
 
-  cube = new Gold();
-  cube->setName("Gold");
+  cube = new Collectable();
   cube->initialize("cave", 1.0f, 1.0f);
   context.add(cube);
 
