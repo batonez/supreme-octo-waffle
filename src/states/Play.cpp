@@ -9,7 +9,7 @@
 
 #define DEBUG_GENERATOR 0
 
-const float Play::BASE_RUNNING_SPEED = 0.001f;
+const float Play::BASE_RUNNING_SPEED = 0.1f;
 const float Play::MOUSE_SENSITIVITY = 0.01f;
 
 class ThatworldPlayController: public ThatworldController

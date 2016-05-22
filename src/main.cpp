@@ -452,7 +452,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     
     SwapBuffers(hdc);
     
-    Sleep(50);
+    Sleep(1);
   }
   
   cleanup:
