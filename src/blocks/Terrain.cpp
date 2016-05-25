@@ -38,7 +38,7 @@ void Terrain::initialize()
     std::shared_ptr<Glade::Mesh> mesh(new DynamicMesh());
     DynamicMeshGenerator generator;
     generator.generate(*((DynamicMesh*) mesh.get()));
-    
+
     view = new Drawable(mesh, program);
 
     view->setUniform("uMaterialAmbient",   Vector4f(0.1f, 0.8f, 0.3f, 1.0f));

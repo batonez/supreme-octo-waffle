@@ -9,6 +9,7 @@ class Block;
 class ThatworldController;
 class Collectable;
 class Terrain;
+class Perception;
 
 class Play: public State
 {
@@ -23,7 +24,8 @@ class Play: public State
     Vector2f mouseLook;
 
     Collectable *cube;
-    Terrain *terrain;
+    Terrain  *terrain;
+    Perception *perception;
 
   public:
     Play();

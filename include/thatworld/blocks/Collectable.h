@@ -8,9 +8,6 @@ class Collectable: public GladeObject
     bool initialized;
     Drawable *view;
 
-  private:
-    float halfplaneXZ;
-    
   public:
     static Transform::SharedVector cubeRotation;
 

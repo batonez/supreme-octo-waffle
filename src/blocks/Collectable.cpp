@@ -14,7 +14,6 @@ Collectable::Collectable():
   initialized(false)
 {
   setName("An object");
-  halfplaneXZ = -1.0f / sqrt(2.0f);
 }
 
 Collectable::~Collectable()
@@ -36,17 +35,20 @@ void Collectable::initialize()
     
     view = new Drawable(game_resource_manager->getMesh(Glade::ResourceManager::MESH_CUBE), program);
 
+    // TODO Get light direction from the global scene
+    // TODO Light direction vector should be rotated by the camera matrix
     view->setUniform("uMaterialAmbient",   Vector4f(0.8f, 0.1f, 0.3f, 1.0f));
     view->setUniform("uMaterialDiffuse",   Vector4f(0.8f, 0.1f, 0.3f, 1.0f));
     view->setUniform("uMaterialSpecular",  Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
     view->setUniform("uMaterialShininess", 128.0f);
-
+/*
+    halfplaneXZ = -1.0f / sqrt(2.0f); // TODO normalize(dir-look)
     view->setUniform("uLightDirection", Vector3f(-1.0f, 0.0f, 1.0f));
     view->setUniform("uLightAmbient", Vector4f(0.5f, 0.5f, 0.5f, 1.0f));
     view->setUniform("uLightDiffuse", Vector4f(0.5f, 0.5f, 0.5f, 1.0f));
     view->setUniform("uLightSpecular", Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
     view->setUniform("uLightHalfplane", halfplaneXZ);
-
+*/
     view->getTransform()->setRotation(cubeRotation);
     view->getTransform()->setRotation(0.33f, 0.33f, 0.33f);
     

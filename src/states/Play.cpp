@@ -5,6 +5,7 @@
 #include <glade/math/util.h>
 #include <thatworld/blocks/Collectable.h>
 #include <thatworld/blocks/Terrain.h>
+#include <thatworld/blocks/Perception.h>
 #include <thatworld/controls/ThatworldController.h>
 #include <thatworld/states/Play.h>
 
@@ -116,7 +117,9 @@ class ThatworldPlayController: public ThatworldController
 Play::Play():
   State(),
   controller(NULL),
-  cube(NULL)
+  cube(NULL),
+  perception(NULL),
+  terrain(NULL)
 {}
 
 Play::~Play()
@@ -142,8 +145,11 @@ void Play::init(Context &context)
   terrain->getTransform()->position->x = -5.0f;
   terrain->getTransform()->position->z = -5.0f;
   
-  context.renderer->camera.position->z = 5.0f;
-  context.renderer->camera.position->y = 1.0f;
+  perception = new Perception();
+  context.renderer->setPerception(perception);
+  
+  context.renderer->getCamera()->position->z = 5.0f;
+  context.renderer->getCamera()->position->y = 1.0f;
   
   controller = new ThatworldPlayController(context, *this);
   context.setController(*controller);
@@ -152,25 +158,27 @@ void Play::init(Context &context)
 void Play::applyRules(Context &context)
 {
   // Moving player character
-  context.renderer->camera.position->x += movingDirection.x * BASE_RUNNING_SPEED * ::cosf(context.renderer->camera.rotation->y);
-  context.renderer->camera.position->x -= movingDirection.z * BASE_RUNNING_SPEED * ::sinf(context.renderer->camera.rotation->y);
+  context.renderer->getCamera()->position->x += movingDirection.x * BASE_RUNNING_SPEED * ::cosf(context.renderer->getCamera()->rotation->y);
+  context.renderer->getCamera()->position->x -= movingDirection.z * BASE_RUNNING_SPEED * ::sinf(context.renderer->getCamera()->rotation->y);
 
-  context.renderer->camera.position->y += movingDirection.y * BASE_RUNNING_SPEED;
+  context.renderer->getCamera()->position->y += movingDirection.y * BASE_RUNNING_SPEED;
 
-  context.renderer->camera.position->z += movingDirection.z * BASE_RUNNING_SPEED * ::cosf(context.renderer->camera.rotation->y);
-  context.renderer->camera.position->z += movingDirection.x * BASE_RUNNING_SPEED * ::sinf(context.renderer->camera.rotation->y);
+  context.renderer->getCamera()->position->z += movingDirection.z * BASE_RUNNING_SPEED * ::cosf(context.renderer->getCamera()->rotation->y);
+  context.renderer->getCamera()->position->z += movingDirection.x * BASE_RUNNING_SPEED * ::sinf(context.renderer->getCamera()->rotation->y);
 
   // Rotating player character
-  context.renderer->camera.rotation->x += mouseLook.x * MOUSE_SENSITIVITY;
-  context.renderer->camera.rotation->y += mouseLook.y * MOUSE_SENSITIVITY;
+  context.renderer->getCamera()->rotation->x += mouseLook.x * MOUSE_SENSITIVITY;
+  context.renderer->getCamera()->rotation->y += mouseLook.y * MOUSE_SENSITIVITY;
 
   // TODO this should be done in the Transform class
-  context.renderer->camera.rotation->x = ::simplify_angle_radians(context.renderer->camera.rotation->x);
-  context.renderer->camera.rotation->y = ::simplify_angle_radians(context.renderer->camera.rotation->y);
+  context.renderer->getCamera()->rotation->x = ::simplify_angle_radians(context.renderer->getCamera()->rotation->x);
+  context.renderer->getCamera()->rotation->y = ::simplify_angle_radians(context.renderer->getCamera()->rotation->y);
   mouseLook.x = mouseLook.y = 0;
 
   Collectable::cubeRotation->y += 0.02f;
   //terrain->getTransform()->rotation->z += 0.01f;
+  
+  perception->adjust();
 }
 
 void Play::shutdown(Context &context)

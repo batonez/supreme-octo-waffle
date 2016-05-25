@@ -21,8 +21,8 @@
 #include <thatworld/exception/ThatworldException.h>
 #include <thatworld/states/Play.h>
 
-#define VIEWPORT_WIDTH 600
-#define VIEWPORT_HEIGHT 600
+#define VIEWPORT_WIDTH 1024
+#define VIEWPORT_HEIGHT 768
 #define ASSETS_DIR "assets"
 
 // FIXME global resource manager is shit. Make it a part of context (Game Context probably should extend Glade Context)
