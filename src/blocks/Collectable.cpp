@@ -41,14 +41,7 @@ void Collectable::initialize()
     view->setUniform("uMaterialDiffuse",   Vector4f(0.8f, 0.1f, 0.3f, 1.0f));
     view->setUniform("uMaterialSpecular",  Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
     view->setUniform("uMaterialShininess", 128.0f);
-/*
-    halfplaneXZ = -1.0f / sqrt(2.0f); // TODO normalize(dir-look)
-    view->setUniform("uLightDirection", Vector3f(-1.0f, 0.0f, 1.0f));
-    view->setUniform("uLightAmbient", Vector4f(0.5f, 0.5f, 0.5f, 1.0f));
-    view->setUniform("uLightDiffuse", Vector4f(0.5f, 0.5f, 0.5f, 1.0f));
-    view->setUniform("uLightSpecular", Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
-    view->setUniform("uLightHalfplane", halfplaneXZ);
-*/
+
     view->getTransform()->setRotation(cubeRotation);
     view->getTransform()->setRotation(0.33f, 0.33f, 0.33f);
     

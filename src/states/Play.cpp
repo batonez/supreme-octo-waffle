@@ -3,9 +3,9 @@
 
 #include <glade/Context.h>
 #include <glade/math/util.h>
+#include <glade/render/Perception.h>
 #include <thatworld/blocks/Collectable.h>
 #include <thatworld/blocks/Terrain.h>
-#include <thatworld/blocks/Perception.h>
 #include <thatworld/controls/ThatworldController.h>
 #include <thatworld/states/Play.h>
 
@@ -175,10 +175,8 @@ void Play::applyRules(Context &context)
   context.renderer->getCamera()->rotation->y = ::simplify_angle_radians(context.renderer->getCamera()->rotation->y);
   mouseLook.x = mouseLook.y = 0;
 
-  Collectable::cubeRotation->y += 0.02f;
+  Collectable::cubeRotation->y += 0.002f;
   //terrain->getTransform()->rotation->z += 0.01f;
-  
-  perception->adjust();
 }
 
 void Play::shutdown(Context &context)
