@@ -8,8 +8,11 @@
 #include <thatworld/blocks/Terrain.h>
 #include <thatworld/controls/ThatworldController.h>
 #include <thatworld/states/Play.h>
+#include <thatworld/ResourceManager.h>
 
 #define DEBUG_GENERATOR 0
+
+extern Thatworld::ResourceManager *game_resource_manager;
 
 const float Play::BASE_RUNNING_SPEED = 0.1f;
 const float Play::MOUSE_SENSITIVITY = 0.01f;
@@ -137,13 +140,13 @@ void Play::init(Context &context)
 
   cube->getTransform()->position->y = 2.0f;
   
-  terrain = new Terrain();
-  terrain->initialize();
-  context.add(terrain);
+  //terrain = new Terrain();
+  //terrain->initialize();
+  //context.add(terrain);
   
-  terrain->getTransform()->rotation->x = -PI / 2.0f;
-  terrain->getTransform()->position->x = -5.0f;
-  terrain->getTransform()->position->z = -5.0f;
+  //terrain->getTransform()->rotation->x = -PI / 2.0f;
+  //terrain->getTransform()->position->x = -5.0f;
+  //terrain->getTransform()->position->z = -5.0f;
   
   perception = new Perception();
   context.renderer->setPerception(perception);
