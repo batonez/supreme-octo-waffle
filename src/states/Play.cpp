@@ -4,6 +4,7 @@
 #include <glade/Context.h>
 #include <glade/math/util.h>
 #include <glade/render/Perception.h>
+#include <glade/render/GladeRenderer.h>
 #include <thatworld/blocks/Collectable.h>
 #include <thatworld/blocks/Terrain.h>
 #include <thatworld/controls/ThatworldController.h>
@@ -118,7 +119,7 @@ class ThatworldPlayController: public ThatworldController
 };
 
 Play::Play():
-  State(),
+  Scene(),
   controller(NULL),
   cube(NULL),
   perception(NULL),

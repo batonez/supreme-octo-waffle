@@ -11,7 +11,6 @@
 #include <glade/debug/crashHandler.h>
 #include <glade/opengl/functions.h>
 #include <glade/render/GladeRenderer.h>
-#include <glade/render/DrawFrameHook.h>
 #include <glade/Context.h>
 #include <glade/State.h>
 #include <glade/util/DesktopFileManager.h>
@@ -31,49 +30,6 @@ Glade::ResourceManager *resource_manager;
 Thatworld::ResourceManager *game_resource_manager;
 
 Context *gameContext = NULL;
-
-class StandardDrawFrameHook : public DrawFrameHook
-{
-  private:
-    Context* context;
-  
-  public:
-    StandardDrawFrameHook(Context &context) : context(&context)
-    {
-    }
-   
-    virtual void onBeforeDraw(void)
-    {
-      context->processRequests();
-      
-      if (context->getCurrentState() != NULL) {
-        if (context->enableSimulator) {
-          context->getSimulator()->stepSimulation(context->timer.getDeltaTime());  
-        }
-        
-        if (context->enableCollisionDetector) {
-          context->getCollisionDetector()->detectCollisions(context->timer.getDeltaTime());
-        }
-        
-        if (context->enableAiContainer) {
-          //context->getAiContainer()->process(context->getCurrentState());
-        }
-        
-        context->getCurrentState()->applyRules(*context);
-        
-        if (context->enableSoundPlayer) {
-          //context->getSoundPlayer()->process();
-        }
-      }
-    }
-    
-    virtual void onAfterDraw(void)
-    {
-      if (context->getCurrentState() != NULL) {
-        context->timer.reset();
-      }
-    }
-};
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -410,10 +366,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
   renderer.onSurfaceCreated();
   renderer.onSurfaceChanged(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
   gameContext = new Context(&renderer);
-  StandardDrawFrameHook hook(*gameContext);
-  renderer.addDrawFrameHook(hook);
 
-  gameContext->requestStateChange(std::unique_ptr<State>(new Play()));
+  gameContext->requestSceneChange(std::unique_ptr<Scene>(new Play()));
   
   // The parameters to ShowWindow explained:
   // hWnd: the value returned from CreateWindow
@@ -432,14 +386,37 @@ int WINAPI WinMain(HINSTANCE hInstance,
       TranslateMessage(&msg);
       DispatchMessage(&msg);
     }
-    
+
+    gameContext->processRequests();
+
+    if (gameContext->getCurrentScene() != NULL) {
+      if (gameContext->enableSimulator) {
+        //gameContext->getSimulator()->stepSimulation(gameContext->timer.getDeltaTime());  
+      }
+
+      if (gameContext->enableCollisionDetector) {
+        //gameContext->getCollisionDetector()->detectCollisions(gameContext->timer.getDeltaTime());
+      }
+
+      if (gameContext->enableAiContainer) {
+        //gameContext->getAiContainer()->process(gameContext->getCurrentScene());
+      }
+
+      gameContext->getCurrentScene()->applyRules(*gameContext);
+
+      if (gameContext->enableSoundPlayer) {
+        //gameContext->getSoundPlayer()->process();
+      }
+    }
+
+    gameContext->timer.reset();
     renderer.onDrawFrame();
     
     SwapBuffers(hdc);
     
     Sleep(1);
   }
-  
+
   cleanup:
       
   if (gameContext != NULL) {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glade/GladeObject.h>
-#include <glade/State.h>
+#include <glade/Scene.h>
 #include <glade/debug/log.h>
 
 class Context;
@@ -11,7 +11,7 @@ class Collectable;
 class Terrain;
 class Perception;
 
-class Play: public State
+class Play: public Scene
 {
   friend class ThatworldPlayController;
   

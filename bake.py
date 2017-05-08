@@ -13,6 +13,7 @@ baker.compilerOutputDir = os.path.join(os.environ['HATCHERY_BUILDS'], 'thatworld
 baker.compilerIncludes.extend([
 os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld'  , 'include'),
 os.path.join(os.environ['HATCHERY_SOURCES'], 'glade' , 'include'),
+os.path.join(os.environ['HATCHERY_SOURCES'], 'glade', '3rdParty', 'glad', 'include'), 
 os.path.join(os.environ['HATCHERY_TOOLS']  , 'OpenGL' , 'include'),
 os.path.join(os.environ['HATCHERY_SOURCES'], 'sha1'),
 ])
