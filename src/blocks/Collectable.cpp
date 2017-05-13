@@ -1,6 +1,6 @@
 #include <glade/render/ShaderProgram.h>
 #include <glade/render/Drawable.h>
-#include <glade/render/meshes/Mesh.h>
+#include <glade/render/meshes/DynamicMesh.h>
 #include <glade/util/Path.h>
 #include <thatworld/ResourceManager.h>
 #include <thatworld/blocks/Collectable.h>
@@ -33,9 +33,9 @@ void Collectable::initialize()
         "lit_shape.fragment.glsl"
       );
 
-    view = new Drawable(game_resource_manager->getMesh("geometry/cube.obj"), program);
-    ((Glade::Mesh *)view->getMesh().get())->calculateNormals();
+    //view = new Drawable(game_resource_manager->getMesh(Glade::ResourceManager::MESH_CUBE), program);
     view = new Drawable(game_resource_manager->getMesh("geometry/skyscraper.obj"), program);
+    ((DynamicMesh *)view->getMesh().get())->calculateNormals();
 
     view->setUniform("uMaterialAmbient",   Vector4f(0.8f, 0.1f, 0.3f, 1.0f));
     view->setUniform("uMaterialDiffuse",   Vector4f(0.8f, 0.1f, 0.3f, 1.0f));
