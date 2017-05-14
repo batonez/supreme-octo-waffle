@@ -34,7 +34,7 @@ void Collectable::initialize()
       );
 
     //view = new Drawable(game_resource_manager->getMesh(Glade::ResourceManager::MESH_CUBE), program);
-    view = new Drawable(game_resource_manager->getMesh("geometry/skyscraper.obj"), program);
+    view = new Drawable(game_resource_manager->getMesh("geometry/cube.positive.obj"), program);
     ((DynamicMesh *)view->getMesh().get())->calculateNormals();
 
     view->setUniform("uMaterialAmbient",   Vector4f(0.8f, 0.1f, 0.3f, 1.0f));

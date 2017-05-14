@@ -139,28 +139,31 @@ void Play::init(Context &context)
   context.add(cube);
 
   cube->getTransform()->position->y = 2.0f;
-  
-  //terrain = new Terrain();
-  //terrain->initialize();
-  //context.add(terrain);
-  
-  //terrain->getTransform()->rotation->x = -PI / 2.0f;
-  //terrain->getTransform()->position->x = -5.0f;
-  //terrain->getTransform()->position->z = -5.0f;
-  
+
+  terrain = new Terrain();
+  terrain->initialize();
+  context.add(terrain);
+
+  terrain->getTransform()->rotation->x = -PI / 2.0f;
+  terrain->getTransform()->position->x = -5.0f;
+  terrain->getTransform()->position->z = -5.0f;
+
   perception = new Perception();
   context.renderer->setPerception(perception);
-  
+
+  context.renderer->getCamera()->thirdPerson = true;
   context.renderer->getCamera()->position->z = 5.0f;
   context.renderer->getCamera()->position->y = 1.0f;
-  
+
   controller = new ThatworldPlayController(context, *this);
   context.setController(*controller);
 }
 
 void Play::applyRules(Context &context)
 {
+  /*
   // Moving player character
+
   context.renderer->getCamera()->position->x += movingDirection.x * BASE_RUNNING_SPEED * ::cosf(context.renderer->getCamera()->rotation->y);
   context.renderer->getCamera()->position->x -= movingDirection.z * BASE_RUNNING_SPEED * ::sinf(context.renderer->getCamera()->rotation->y);
 
@@ -168,17 +171,29 @@ void Play::applyRules(Context &context)
 
   context.renderer->getCamera()->position->z += movingDirection.z * BASE_RUNNING_SPEED * ::cosf(context.renderer->getCamera()->rotation->y);
   context.renderer->getCamera()->position->z += movingDirection.x * BASE_RUNNING_SPEED * ::sinf(context.renderer->getCamera()->rotation->y);
+  */
 
+  /*
   // Rotating player character
   context.renderer->getCamera()->rotation->x += mouseLook.x * MOUSE_SENSITIVITY;
   context.renderer->getCamera()->rotation->y += mouseLook.y * MOUSE_SENSITIVITY;
+  */
 
+  /*
   // TODO this should be done in the Transform class
   context.renderer->getCamera()->rotation->x = ::simplify_angle_radians(context.renderer->getCamera()->rotation->x);
   context.renderer->getCamera()->rotation->y = ::simplify_angle_radians(context.renderer->getCamera()->rotation->y);
   mouseLook.x = mouseLook.y = 0;
+  */
 
-  Collectable::cubeRotation->y += 0.002f;
+  // Rotating camera
+  context.renderer->getCamera()->rotation->x += mouseLook.x * 0.01;
+  context.renderer->getCamera()->rotation->y += mouseLook.y * 0.01;
+
+  // Set camera position to the cube
+  context.renderer->getCamera()->position->set(*cube->getTransform()->position.get());
+
+  // Collectable::cubeRotation->y += 0.002f;
   //terrain->getTransform()->rotation->z += 0.01f;
 }
 
