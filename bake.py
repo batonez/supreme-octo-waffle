@@ -1,20 +1,23 @@
 import os
-import baker
+import importlib.util
+bakerModuleSpec = importlib.util.spec_from_file_location("baker", os.path.join(os.environ['HATCHERY_SOURCES'], 'baker', 'baker.py'))
+baker = importlib.util.module_from_spec(bakerModuleSpec)
+bakerModuleSpec.loader.exec_module(baker)
 
 ######################## Dependencies
 baker.compileDependencies = [
 os.path.join(os.environ['HATCHERY_SOURCES'], 'glade'),
-os.path.join(os.environ['HATCHERY_SOURCES'], 'lodepng'),
+os.path.join(os.environ['HATCHERY_VENDOR'], 'lodepng'),
 ]
 
 ######################## Compiler
 baker.compilerOutputDir = os.path.join(os.environ['HATCHERY_BUILDS'], 'thatworld', 'obj')
 
 baker.compilerIncludes.extend([
-os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld'  , 'include'),
-os.path.join(os.environ['HATCHERY_SOURCES'], 'glade' , 'include'),
-os.path.join(os.environ['HATCHERY_TOOLS']  , 'OpenGL' , 'include'),
-os.path.join(os.environ['HATCHERY_SOURCES'], 'sha1'),
+os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld'  , 'include'), #wtf
+os.path.join(os.environ['HATCHERY_SOURCES'], 'glade' , 'include'), # public includes should be copied to dist and used from there
+os.path.join(os.environ['HATCHERY_VENDOR']  , 'OpenGL' , 'include'),
+os.path.join(os.environ['HATCHERY_VENDOR'], 'sha1'),
 ])
 
 baker.compilerSources = [
@@ -23,14 +26,14 @@ os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'src', 'blocks', 'Coll
 os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'src', 'blocks', 'Terrain.cpp'),
 os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'src', 'ResourceManager.cpp'),
 os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'src', 'main.cpp'),
-os.path.join(os.environ['HATCHERY_SOURCES'], 'sha1',  'sha1.cpp'),
+os.path.join(os.environ['HATCHERY_VENDOR'], 'sha1',  'sha1.cpp'), # create separate bake file for that
 ]
 
 ######################## Linker
 baker.linkerOutputFilename = os.path.join(os.environ['HATCHERY_BUILDS'], 'thatworld', 'game.exe')
 
 baker.linkerLibPath.extend([
-os.path.join(os.environ['HATCHERY_BUILDS'], 'freetype-2.5.5')
+os.path.join(os.environ['HATCHERY_VENDOR'], 'freetype-windows-binaries', 'win64')
 ])
 
 baker.linkerObjects = [
@@ -52,5 +55,6 @@ baker.compile()
 baker.linkExe()
 
 ######################## Copy FIXME baker copy function should copy file-by-file
+# FIXME copy freetype.dll
 baker.copyDir(os.path.join(os.environ['HATCHERY_SOURCES'], 'thatworld', 'assets'), os.path.join(os.environ['HATCHERY_BUILDS'], 'thatworld', 'assets'))
 baker.copyDir(os.path.join(os.environ['HATCHERY_SOURCES'], 'glade', 'res'), os.path.join(os.environ['HATCHERY_BUILDS'], 'thatworld', 'assets'))
